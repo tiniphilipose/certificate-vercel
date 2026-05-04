@@ -51,7 +51,7 @@ const downloadPDF = async () => {
   };
 
   return (
-    <div style={{ textAlign: "center", padding: "20px" }}>
+    <div className={"flex flex-col items-center p-4"}>
 
       <div
         id="cert"
@@ -128,6 +128,7 @@ const downloadPDF = async () => {
               textTransform: "uppercase",
               marginBottom: "10px",
               marginTop: "10px",
+              color:"#343434",
               ...editableStyle,
             }}
           >
@@ -196,6 +197,7 @@ const downloadPDF = async () => {
               lineHeight: "1.6",
               color: "#444",
               fontWeight: "800",
+              fontStyle: "italic",
               paddingBottom: "60px",
               ...editableStyle,
             }}
@@ -284,7 +286,6 @@ const downloadPDF = async () => {
           </div>
         </div>
       </div>
-
       <button
         onClick={downloadPDF}
         style={{

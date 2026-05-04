@@ -18,7 +18,18 @@
     --foreground: #ededed;
   }
 }
-
+.flex {
+    display: flex;
+}
+.flex-col {
+    flex-direction: column;
+}
+.items-center {
+    align-items: center;
+}
+.p-4 {
+    padding: calc(var(--spacing) * 4);
+}
 body {
   background: var(--background);
   color: var(--foreground);
