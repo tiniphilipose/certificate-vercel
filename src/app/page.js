@@ -281,8 +281,8 @@ const downloadPDF = async () => {
             </div> */}
 
             <div style={{ borderTop: "1px solid #000", width: "200px", margin: "0px auto",color:"#4d4434" }} />
-            <p style={{ fontSize: "20px", fontWeight: "bold", textTransform: "uppercase", margin: "0px" }}>Umamaheswari Sukumar</p>
-            <small>Trainer</small>
+            <p style={{ fontSize: "20px", fontWeight: "bold", textTransform: "uppercase", margin: "0px",color:"#4d4434" }}>Umamaheswari Sukumar</p>
+            <small style={{ fontSize: "14px",color:"#4d4434", fontWeight: "bold", }}>Trainer</small>
           </div>
         </div>
       </div>
