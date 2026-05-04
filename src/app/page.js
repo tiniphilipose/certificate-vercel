@@ -130,7 +130,7 @@ export default function Certificate() {
 
           <div
             style={{
-              border: "1px solid #dcb458",
+              border: "2px solid #dcb458",
               width: "400px",
               margin: "0 auto 10px",
             }}
@@ -170,6 +170,7 @@ export default function Certificate() {
       display: "inline-block",
       color: "#4d4434",
       fontWeight: "600",
+      textTransform: "uppercase",
     }}
   >
     {course}
