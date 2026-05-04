@@ -280,7 +280,7 @@ const downloadPDF = async () => {
               {instructor}
             </div> */}
 
-            <div style={{ borderTop: "1px solid #000", width: "200px", margin: "0px auto" }} />
+            <div style={{ borderTop: "1px solid #000", width: "200px", margin: "0px auto",color:"#4d4434" }} />
             <p style={{ fontSize: "20px", fontWeight: "bold", textTransform: "uppercase", margin: "0px" }}>Umamaheswari Sukumar</p>
             <small>Trainer</small>
           </div>
