@@ -1,49 +1,50 @@
 "use client";
 
 import { useState } from "react";
-import { Cormorant_Garamond } from "next/font/google";
+import { Cormorant_Garamond, Gilda_Display } from "next/font/google";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
 });
-
+const gilda = Gilda_Display({
+  subsets: ["latin"],
+  weight: ["400"], // Gilda only supports 400
+});
 export default function Certificate() {
   const [name, setName] = useState("");
   const [course, setCourse] = useState("");
   const [summary, setSummary] = useState("");
   const [date, setDate] = useState("");
   const [instructor, setInstructor] = useState("");
-  const [certificateNo, setCertificateNo] = useState("BCMC2026000");
-  const [hours, setHours] = useState("1 hour");
-  const [modeOfTraining, setModeOfTraining] = useState("Online");
-const downloadPDF = async () => {
-  const element = document.getElementById("cert");
-  if (!element) return;
+  const [certificateNo, setCertificateNo] = useState("");
+  const [hours, setHours] = useState("");
+  const [modeOfTraining, setModeOfTraining] = useState("");
+  const [isExporting, setIsExporting] = useState(false);
+ const downloadPDF = async () => {
+    setIsExporting(true);
 
-  const html2canvas = (await import("html2canvas")).default;
-  const jsPDF = (await import("jspdf")).default;
+    const element = document.getElementById("cert");
+    const html2canvas = (await import("html2canvas")).default;
+    const jsPDF = (await import("jspdf")).default;
 
-  await new Promise((r) => setTimeout(r, 300));
+    await new Promise((r) => setTimeout(r, 300));
 
-  const canvas = await html2canvas(element, {
-    scale: 3,
-    useCORS: true,
-    backgroundColor: null,
-  });
+    const canvas = await html2canvas(element, {
+      scale: 3,
+      useCORS: true,
+      backgroundColor: "#ffffff",
+    });
 
-  const imgData = canvas.toDataURL("image/png");
+    const imgData = canvas.toDataURL("image/png");
 
-  const pdf = new jsPDF("landscape", "mm", "a4");
-  pdf.addImage(imgData, "PNG", 0, 0, 297, 210);
+    const pdf = new jsPDF("landscape", "mm", "a4");
+    pdf.addImage(imgData, "PNG", 0, 0, 297, 210);
 
-  // ✅ CLEAN FILE NAME (important)
-  const fileName = `certificate-${name || "name"}.pdf`
-    .replace(/\s+/g, "-")   // replace spaces with -
-    .toLowerCase();
+    pdf.save(`certificate-${name || "name"}.pdf`);
 
-  pdf.save(fileName);
-};
+    setIsExporting(false);
+  };
 
   const editableStyle = {
     outline: "none",
@@ -81,10 +82,10 @@ const downloadPDF = async () => {
         >
           <h1
             style={{
-              fontSize: "57px",
+              fontSize: "57.3px",
               lineHeight: "45px",
               color: "#a27430",
-              letterSpacing: "2px",
+              letterSpacing: "3px",
               fontWeight: "600",
               marginBottom: "15px",
             }}
@@ -94,11 +95,13 @@ const downloadPDF = async () => {
 
           <h2
             style={{
-              fontSize: "26px",
+              fontSize: "26.6px",
               textTransform: "uppercase",
+              letterSpacing: "2px",
               color: "#4d4434",
               lineHeight: "45px",
               marginBottom: "10px",
+              fontWeight: "500",
             }}
           >
             of participation
@@ -122,13 +125,15 @@ const downloadPDF = async () => {
             suppressContentEditableWarning
             data-placeholder="Your Name"
             onBlur={(e) => setName(e.target.innerText)}
+            className={gilda.className}
             style={{
               fontSize: "40px",
               fontWeight: "600",
               textTransform: "uppercase",
               marginBottom: "10px",
               marginTop: "10px",
-              color:"#343434",
+              color: "#343434",
+              display: "inline-block",
               ...editableStyle,
             }}
           >
@@ -173,7 +178,6 @@ const downloadPDF = async () => {
                 outline: "none",
                 fontWeight: "500",
                 borderBottom: "1px solid transparent",
-                minWidth: "150px",
                 display: "inline-block",
                 color: "#4d4434",
                 fontWeight: "600",
@@ -183,7 +187,7 @@ const downloadPDF = async () => {
               {course}
             </span>
           </div>
-
+<br></br>
           {/* ✅ SUMMARY (NEW) */}
           <div
             contentEditable
@@ -195,10 +199,11 @@ const downloadPDF = async () => {
               maxWidth: "84%",
               margin: "0 auto",
               lineHeight: "1.6",
-              color: "#444",
+              color: "#000000",
               fontWeight: "800",
               fontStyle: "italic",
               paddingBottom: "60px",
+              display: "inline-block",
               ...editableStyle,
             }}
           >
@@ -218,58 +223,153 @@ const downloadPDF = async () => {
             alignItems: "end",
           }}
         >
-          {/* DATE */}
-          {/* <div style={{ textAlign: "center" }}>
-            <div
-              contentEditable
-              suppressContentEditableWarning
-              data-placeholder="Date"
-              onBlur={(e) => setDate(e.target.innerText)}
-              style={editableStyle}
-            >
-              {date}
-            </div>
-            <div style={{ borderTop: "1px solid #000", width: "150px" }} />
-            <small>Date</small>
-          </div> */}
           <div
+            className={gilda.className}
             style={{
               textAlign: "left",
-              fontSize: "18px",
-              color: "#4d4434",
+              fontSize: "13px",
+              color: "#000000",
             }}
           >
-            <div>Certificate no:{" "}
+            <div>
+              Certificate no:{" "}
+
+              {/* STATIC PREFIX */}
+              <span>
+                BCMC
+              </span>
+
+              {/* EDITABLE NUMBER */}
               <span
                 contentEditable
                 suppressContentEditableWarning
-                onBlur={(e) => setCertificateNo(e.target.innerText)}
-                style={{ ...editableStyle, display: "inline-block", minWidth: "150px" }}
+                data-placeholder="0000000"
+                onBlur={(e) => {
+                  const value = e.target.innerText.replace(/\D/g, "");
+                  setCertificateNo(value);
+                }}
+                style={{
+                  ...editableStyle,
+                  display: "inline-block",
+                  minWidth: "90px",
+                  outline: "none",
+                  position: "relative",
+                }}
               >
                 {certificateNo}
               </span>
             </div>
-
-            <div>Hours: 1 hour
-            </div>
-
-            <div>Date of completion:{" "}
+            <div>
+              Hours:{" "}
               <span
                 contentEditable
                 suppressContentEditableWarning
-                onBlur={(e) => setDate(e.target.innerText)}
-                style={{ ...editableStyle, display: "inline-block", minWidth: "150px" }}
+                data-placeholder="0"
+                onBlur={(e) => {
+                  const value = e.target.innerText;
+                  setHours(value);
+                }}
+                    style={{
+                  ...editableStyle,
+                  display: "inline-block",
+                }}
               >
-                {date || "00-00-0000"}
+                {hours}
+              </span>
+              {" "}
+              <span>
+                hour
               </span>
             </div>
 
-            <div>Mode of training: Online
+            <div>
+              Date of completion:{" "}
+
+              <span
+                contentEditable
+                suppressContentEditableWarning
+                data-placeholder="dd-mm-yyyy"
+                onInput={(e) => {
+                  let value = e.currentTarget.innerText.replace(/\D/g, "");
+
+                  // Auto format dd-mm-yyyy
+                  if (value.length > 2) {
+                    value = value.slice(0, 2) + "-" + value.slice(2);
+                  }
+
+                  if (value.length > 5) {
+                    value = value.slice(0, 5) + "-" + value.slice(5, 9);
+                  }
+
+                  e.currentTarget.innerText = value;
+
+                  // Move cursor to end
+                  const range = document.createRange();
+                  const sel = window.getSelection();
+
+                  range.selectNodeContents(e.currentTarget);
+                  range.collapse(false);
+
+                  sel.removeAllRanges();
+                  sel.addRange(range);
+
+                  setDate(value);
+                }}
+                style={{
+                  ...editableStyle,
+                  minWidth: "110px",
+                  display: "inline-block",
+                  outline: "none",
+                }}
+              >
+                {date}
+              </span>
             </div>
+
+<div style={{ display: "flex", alignItems: "center" }}>
+  <span>Mode of training:</span>
+
+  {/* SHOW ONLY WHEN EXPORTING (PDF SAFE TEXT) */}
+  {isExporting ? (
+    <span
+      style={{
+        fontSize: "13px",
+        color: "#000",
+        minWidth: "140px",
+        display: "inline-block",
+            padding: "4px",
+      }}
+    >
+     {modeOfTraining || "Select Mode"}
+    </span>
+  ) : (
+    /* UI ONLY SELECT */
+    <select
+      value={modeOfTraining}
+      onChange={(e) => setModeOfTraining(e.target.value)}
+      style={{
+        border: "none",
+        outline: "none",
+        background: "transparent",
+        fontSize: "13px",
+        fontFamily: "inherit",
+        cursor: "pointer",
+        padding:"4px",
+        appearance: "none",
+      }}
+    >
+      <option value="">Select Mode</option>
+      <option value="Online">Online</option>
+      <option value="Face To Face">Face To Face</option>
+      <option value="In Office">In Office</option>
+      <option value="In House">In House</option>
+    </select>
+  )}
+</div>
           </div>
 
           {/* INSTRUCTOR */}
-          <div style={{ textAlign: "center" }}>
+          <div style={{ textAlign: "center", position: "relative" }}>
             {/* <div
               contentEditable
               suppressContentEditableWarning
@@ -280,9 +380,12 @@ const downloadPDF = async () => {
               {instructor}
             </div> */}
 
-            <div style={{ borderTop: "1px solid #000", width: "200px", margin: "0px auto",color:"#4d4434" }} />
-            <p style={{ fontSize: "20px", fontWeight: "bold", textTransform: "uppercase", margin: "0px",color:"#4d4434" }}>Umamaheswari Sukumar</p>
-            <small style={{ fontSize: "14px",color:"#4d4434", fontWeight: "bold", }}>Trainer</small>
+
+            <img alt="Seal" src="/seal.png" style={{ width: "100px", position: "absolute", bottom: "55px", right: "55px", zIndex: "1" }}></img>
+            <img alt="Signature" src="/signature.png" style={{ width: "200px", position: "relative", zIndex: "2", margin: "0 auto", bottom: "24px" }}></img>
+            <div style={{ borderTop: "1px solid #000", width: "172px", margin: "0px auto", color: "#4d4434" }} />
+            <p style={{ fontSize: "16px", fontWeight: "bold", textTransform: "uppercase", margin: "0px", color: "#4d4434" }}>Umamaheswari Sukumar</p>
+            <small style={{ fontSize: "14px", color: "#4d4434", fontWeight: "bold", }}>Trainer</small>
           </div>
         </div>
       </div>
@@ -293,7 +396,7 @@ const downloadPDF = async () => {
           padding: "10px 20px",
           cursor: "pointer",
           marginTop: "20px",
-          backgroundColor: "rgb(37, 99, 235)",
+          backgroundColor: "#dcb458",
           color: "rgb(255, 255, 255)",
           borderRadius: "6px",
           borderWidth: "medium",
@@ -304,7 +407,7 @@ const downloadPDF = async () => {
           fontWeight: "bold",
         }}
       >
-        Download Certificate
+        {isExporting ? "Generating..." : "Download Certificate"}
       </button>
     </div>
   );
