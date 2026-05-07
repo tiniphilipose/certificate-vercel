@@ -14,6 +14,11 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Certificate",
   description: " ",
+   icons: {
+    icon: "/certificate_logo.png",
+    shortcut: "/certificate_logo.png",
+    apple: "/certificate_logo.png",
+  },
 };
 
 export default function RootLayout({ children }) {
