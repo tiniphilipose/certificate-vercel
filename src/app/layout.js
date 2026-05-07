@@ -19,6 +19,9 @@ export const metadata = {
     shortcut: "/certificate_logo.png",
     apple: "/certificate_logo.png",
   },
+   openGraph: {
+    images: ["/certificate_logo.png"],
+  },
 };
 
 export default function RootLayout({ children }) {
