@@ -381,7 +381,7 @@ export default function Certificate() {
             </div> */}
 
 
-            {/* <img alt="Seal" src="/seal.png" style={{ width: "100px", position: "absolute", bottom: "55px", right: "55px", zIndex: "1" }}></img> */}
+            <img alt="Seal" src="/seal-new.png" style={{ width: "100px", position: "absolute", bottom: "55px", right: "55px", zIndex: "1" }}></img>
             <img alt="Signature" src="/signature.png" style={{ width: "200px", position: "relative", zIndex: "2", margin: "0 auto", bottom: "24px" }}></img>
             <div style={{ borderTop: "1px solid #000", width: "172px", margin: "0px auto", color: "#4d4434" }} />
             <p style={{ fontSize: "16px", fontWeight: "bold", textTransform: "uppercase", margin: "0px", color: "#4d4434" }}>Umamaheswari Sukumar</p>
